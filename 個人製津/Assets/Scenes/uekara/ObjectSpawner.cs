@@ -28,7 +28,7 @@ public class ObjectSpawner : MonoBehaviour
 
             for (int i = 0; i < maxObjects; i++)
             {
-                float randomX = Random.Range(-8.52f, 8.52f); // X座標をランダムに
+                float randomX = Random.Range(-10.27f, 10.28f); // X座標をランダムに
                 float randomY = Random.Range(6f, 10f); // Y座標をランダムに
                 float fallSpeed = Random.Range(1f, 5f); // 落下スピードをランダムに
 
