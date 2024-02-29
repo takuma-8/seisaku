@@ -27,7 +27,7 @@ public class ItemController : MonoBehaviour
             isGenerating = true;
 
             // 生成されたアイテムが再び生成されるまでの待機時間
-            float generateCooldown = Random.Range(10f, 11f); // 10から11秒のランダムな時間
+            float generateCooldown = Random.Range(10f, 15f); // 10から11秒のランダムな時間
             Invoke("ResetGeneratingFlag", generateCooldown);
         }
     }

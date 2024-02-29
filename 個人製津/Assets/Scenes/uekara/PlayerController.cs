@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
@@ -37,45 +37,45 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
-        {
-            // ゲームオーバーの処理
-            GameOver();
-        }
-
-        
-
-            
         if (collision.gameObject.CompareTag("Item"))
+        { 
            
-        {
-                // Item01にぶつかったときの処理
-             
+            // Item01にぶつかったときの処理
             Debug.Log("Item01にぶつかりました！");
 
-            
-            
-           // アイテム取得の影響を与え、クールダウンを開始する
-           StartCoroutine(ItemCooldown());
-
-                // アイテムと障害物を破壊
-             
-            Destroy(collision.gameObject);
-
-                // 障害物も破壊する
-                DestroyObstacles();
-            }
-     
-        void DestroyObstacles()
-        {
-            // 周囲の障害物を破壊
-            GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
-            foreach (GameObject obstacle in obstacles)
+            // デバッグログを追加して、collision.gameObjectが何であるか確認する
+            if (collision.gameObject == null)
             {
-                Destroy(obstacle);
+                Debug.LogError("collision.gameObject is null!");
             }
+
+            // アイテム取得の影響を与え、クールダウンを開始する
+            StartCoroutine(ItemCooldown());
+
+            // アイテムと障害物を破壊
+            Destroy(collision.gameObject);
+           
+
+            // 障害物も破壊する
+            DestroyObstacles();
         }
 
+        if (!gameOver && collision.gameObject.CompareTag("Obstacle"))
+        {
+            // 障害物に当たった場合の処理
+            GameOver();
+        }
+    }
+
+
+    void DestroyObstacles()
+    {
+        // 周囲の障害物を破壊
+        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+        foreach (GameObject obstacle in obstacles)
+        {
+            Destroy(obstacle);
+        }
     }
 
     IEnumerator ItemCooldown()
@@ -83,7 +83,6 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(itemCooldown);
 
         // クールダウン終了後にアイテム取得の影響を解除
-        
     }
 
     void GameOver()
@@ -91,6 +90,7 @@ public class PlayerController : MonoBehaviour
         // ゲームオーバーの処理をここに追加
         Debug.Log("Game Over");
 
-        // 任意のゲームオーバー処理を実装する（例: ゲームオーバー画面の表示、ゲームの一時停止など）
+        SceneManager.LoadScene("GameOverScene");
+
     }
 }
